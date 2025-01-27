@@ -1,21 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const UserList = ({ users, viewUser, editUser, deleteUser }) => {
+const UserForm = ({ addUser, updateUser, initialData }) => {
+  const [formData, setFormData] = useState(initialData);
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (formData.id) {
+      updateUser(formData);
+    } else {
+      addUser(formData);
+    }
+    setFormData({name: '', email: '', phone: '', website:'' });
+  };
+
   return (
-    <div>
-      <h2>User List</h2>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>
-            {user.name}
-            <button onClick={() => viewUser(user)}>View</button>
-            <button onClick={() => editUser(user)}>Edit</button>
-            <button onClick={() => deleteUser(user.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <label>
+        Name:
+        <input className="name" type="text" name="name" value={formData.name} onChange={handleInputChange} />
+      </label>
+      <br/>
+      <label>
+        email:
+        <input type="text" name="email" value={formData.email} onChange={handleInputChange} />
+      </label>
+      <br/>
+      <label>
+        Phone:
+        <input type="text" name="phone" value={formData.phone} onChange={handleInputChange} />
+      </label>
+      <br/>
+      <label>
+        Website:
+        <input type="text" name="website" value={formData.website} onChange={handleInputChange} />
+      </label>
+      <br/>
+      <button className="addbutton" type="submit">Submit</button>
+    </form>
   );
 };
 
-export default UserList;
+export default UserForm;
