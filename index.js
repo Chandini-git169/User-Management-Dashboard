@@ -1,15 +1,21 @@
 import React from 'react';
 
-const UserDetail = ({ user }) => {
+const UserList = ({ users, viewUser, editUser, deleteUser }) => {
   return (
     <div>
-      <h2>User Detail</h2>
-      <p>name: {user.name}</p>
-      <p>Email: {user.email}</p>
-      <p>Phone: {user.phone}</p>
-      <p>Website: {user.website}</p>
+      <h2>User List</h2>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>
+            {user.name}
+            <button onClick={() => viewUser(user)}>View</button>
+            <button onClick={() => editUser(user)}>Edit</button>
+            <button onClick={() => deleteUser(user.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
 
-export default UserDetail;
+export default UserList;
